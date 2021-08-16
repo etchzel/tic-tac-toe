@@ -1,18 +1,11 @@
+html {
+    font-family: 'Sora', sans-serif;
+}
+
 body {
     background-color: #36393e;
     color: white;
-    font-family: Helvetica, sans-serif;
-    line-height: 1.6;
     margin-bottom: 80px;
-}
-
-button {
-    border: none;
-    color: inherit;
-    font-family: inherit;
-    font-size: inherit;
-    cursor: pointer;
-    outline: none;
 }
 
 *, *::after, *::before {
@@ -21,16 +14,106 @@ button {
     margin: 0;
 }
 
+.header {
+    display: block;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: #424549;
+    color:rgb(216, 216, 216);
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    gap: 100px;
+    padding-left: 100px;
+    margin: 0 auto;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    width: 400px;
+}
+
+.ai-mode-settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 30px;
+}
+
+.ai-mode-settings.hidden {
+    display: none;
+}
+
+.game-mode-select, 
+.sign-select {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    justify-items: center;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.game-mode-select {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 0px;
+}
+
+.btn {
+    cursor: pointer;
+    border: 3px solid #2e3136;
+    background-color: #424549;
+    color: rgb(214, 214, 214);
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.vs-human, .vs-ai,
+.sign-o, .sign-x {
+    width: 85%;
+    font-size: 40px;
+    padding: 20px 20px;
+    border-radius: 100px;
+}
+
+.sign-o, .sign-x {
+    padding: 0px;
+    height: 60px;
+}
+
+.vs-human.active, 
+.vs-ai.active,
+.sign-o.active,
+.sign-x.active {
+    background-color: #7289da;
+}
+
 .main-container {
     display: block;
     position: relative;
     align-content: center;
     justify-content: center;
+    width: 600px;
 }
 
 .message {
     padding: 20px 0;
-    font-size: 50px;
+    font-size: 40px;
     text-align: center;
 }
 
@@ -47,16 +130,16 @@ button {
 
 .cell {
     cursor: pointer;
-    border: 1px solid black;
-    height: 150px;
-    width: -webkit-fill-available;
-    width: -moz-available;
-    width: fill-available;
     font-size: 100px;
+    height: 148.66px;
+    width: 148.66px;
+    border: 1px solid black;
     font-weight: bold;
     background-color: rgb(216, 216, 216);
     color: #2e3136;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .cell:hover {
@@ -70,10 +153,110 @@ button {
 }
 
 .restart-btn {
-    padding: 10px 20px;
-    border: 3px solid #2e3136;
-    border-radius: 10px;
-    background-color: #7289da;
-    color: rgb(214, 214, 214);
+    padding: 15px 30px;
     font-size: 40px;
+    border: 0px solid black;
+    border-radius: 15px;
+    box-shadow: 0px 8px rgb(90, 90, 90);
+    background-color: #7289da;
+}
+
+.restart-btn:hover {
+    transform: scale(1);
+    background-color: #85a0ff;
+}
+
+.restart-btn:active {
+    background-color: #85a0ff;
+    box-shadow: 0px 4px rgb(78, 78, 78);
+    transform: translateY(4px);
+}
+
+@media (max-width: 1200px) {
+    .main {
+      justify-content: center;
+    }
+}
+  
+@media (max-width: 1000px) {
+    .main {
+        gap: 50px;
+        flex-direction: column;
+        padding-left: 0px;
+        justify-content: center;
+    }
+
+    .message {
+        font-size: 30px;
+    }
+
+    .settings {
+        width: 400px;
+        gap: 20px;
+    }
+
+    .game-mode-select {
+        grid-template-columns: 1fr 1fr;
+        gap: 0px;
+    }
+
+    .ai-mode-settings {
+        gap: 20px;
+    }
+
+    .vs-human, .vs-ai {
+        font-size: 20px;
+    }
+
+    .restart-btn {
+        font-size: 25px;
+    }
+}
+  
+@media (max-width: 720px) {
+    .main {
+        justify-self: center;
+        padding-right: 40px;
+    }
+
+    .message {
+        font-size: 30px;
+    }
+
+    .board {
+        width: 255px;
+        height: 255px;
+    }
+
+    .cell {
+        font-size: 40px;
+        height: 83.66px;
+        width: 83.66px;
+    }
+
+    .vs-human, .vs-ai {
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .sign-o, .sign-x {
+        width: 55%;
+        font-size: 20px;
+    }
+
+    .restart-btn {
+        font-size: 25px;
+    }
+
+    .settings {
+        width: 300px;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .main {
+        justify-self: center;
+        padding-right: 20px;
+    }
 }

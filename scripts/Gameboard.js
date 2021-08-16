@@ -1,5 +1,5 @@
 const Gameboard = (() => {
-    let _board = new Array(9);
+    let _board = [...Array(9).keys()];
 
     const init = () => {
         const container = document.createElement('div');
@@ -18,23 +18,19 @@ const Gameboard = (() => {
     const getBoard = () => _board;
 
     const clearBoard = () => {
-        _board = _board.map(elem => elem = undefined);
+        _board = [...Array(9).keys()];
     };
 
-    const setCell = (idx, player) => {
-        _board[idx] = player.getSign();
+    const setCell = (idx, playerSign) => {
+        _board[idx] = playerSign;
     };
 
     const getCell = (idx) => {
         return _board[idx];
     };
 
-    const getEmptyCellsIndex = (cellIndex) => {
-        let cells = [];
-        _board.forEach((elem) => {
-            if (elem === undefined) cells.push(cellIndex);
-        });
-        return cells;
+    const getEmptyCells = () => {
+        return _board.filter(c => c !== 'O' && c !== 'X');
     };
 
     return {
@@ -43,7 +39,7 @@ const Gameboard = (() => {
         init,
         setCell,
         getCell,
-        getEmptyCellsIndex
+        getEmptyCells
     };
 })();
 

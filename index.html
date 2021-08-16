@@ -4,15 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <title>Document</title>
 </head>
 <body>
-    <header class="header"></header>
-    <main class="main-container">
-        <div class="message">Player X's turn</div>
-        <div class="options">
-            <button class="restart-btn">Restart</button>
+    <header class="header">
+    </header>
+    <main class="main">
+        <div class="settings">
+            <h2 class="message game-mode">Pick game mode:</h2>
+            <div class="game-mode-select">
+                <button class="btn vs-human">Vs. Human</button>
+                <button class="btn vs-ai active">Vs. AI</button>
+            </div>
+            <div class="ai-mode-settings">
+                <h2 class="message pick-sign">Choose sign:</h2>
+                <div class="sign-select">
+                    <button class="btn sign-x active">X</button>
+                    <button class="btn sign-o">O</button>
+                </div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="message current-mode">Current Mode: Vs. AI</div>
+            <div class="message game-message">Player X's turn</div>
+            <div class="options">
+                <button class="btn restart-btn">Restart</button>
+            </div>
         </div>
     </main>
     <script type="module" src="./scripts/scripts.js"></script>

@@ -1,87 +1,75 @@
+import AILogic from "./aiController.js";
 import Player from "./Player.js";
 
 const Controller = (() => {
-    const _playerA = Player('X');
-    const _playerB = Player('O');
+    let _playerA = Player('X');
+    let _playerB = Player('O');
+    const _aiLogic = AILogic;
     let round = 1;
     let _isOver = false;
     let _roundResult = null;
 
+    const setPlayerSign = (sign) => {
+        _playerA = Player(sign);
+        if (sign === 'X') {
+            _playerB = Player('O');
+        } else {
+            _playerB = Player('X');
+        };
+    };
+    
     const getRoundResult = () => _roundResult;
 
     const getPlayerTurn = () => {
-        return round % 2 === 1 ? _playerA : _playerB;
+        if (_playerA.getSign() === 'X')
+            return round % 2 === 1 ? _playerA : _playerB;
+        return round % 2 === 1 ? _playerB : _playerA;
     };
 
-    const _winByRow = (board) => {
-        for (let i = 0; i < 3; i++) {
-            let row = [];
-            for (let j = 0; j < 3; j++) row.push(board.getCell(j));
+    const getHumanPlayer = () => _playerA;
+    const getAiPlayer = () => _playerB;
 
-            if (row.every(e => e === 'X') || row.every(e => e === 'O')) {
-                return true;
-            };
-        };
+    const checkWin = (board) => {
+        const winningLines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
 
-        return false;
+        const win = winningLines.some((line) => {
+            return (line.every(i => board[i] === 'O') ||
+                    line.every(i => board[i] === 'X'));
+        });
+
+        return win;
     };
 
-    const _winByColumn = (board) => {
-        for (let i = 0; i < 3; i++) {
-            let col = [];
-            for (let j = 0; j < 3; j++) col.push(board.getCell(i+j*3));
-
-            if (col.every(e => e === 'X') || col.every(e => e === 'O')) {
-                return true;
-            };
-        };
-
-        return false;
-    };
-
-    const _winByDiagonals = (board) => {
-        const diagonals = {
-            1: [board.getCell(0), board.getCell(4), board.getCell(8)],
-            2: [board.getCell(2), board.getCell(4), board.getCell(6)]
-        };
-
-        for (const d in diagonals) {
-            if (diagonals[d].every(e => e === 'X') ||
-                diagonals[d].every(e => e === 'O')) return true;
-        };
-
-        return false;
-    };
-
-    const _checkWin = (board) => {
-        if (_winByRow(board) || 
-            _winByColumn(board) || 
-            _winByDiagonals(board)) return true;
-
-        return false;
-    };
-
-    const _checkDraw = (board) => {
-        console.log(board);
-        if (_checkWin(board)) return false;
-        if (board.getBoard().includes(undefined)) return false;
+    const checkDraw = (board) => {
+        if (board.some(cell => !isNaN(cell))) return false;
         return true;
     };
 
-    const playerMove = (board, idx) => {
-        const cell = board.getCell(idx);
-        if (_isOver || cell !== undefined) return;
+    const playerMove = (boardObj, idx) => {
+        const cell = boardObj.getCell(idx);
+        if (_isOver || isNaN(cell)) return;
 
-        const player = getPlayerTurn();
-        board.setCell(idx, player);
-        if (_checkWin(board)) {
-            console.log(`Player ${player.getSign()} win!`);
-            _roundResult = `Player ${player.getSign()} win!`;
+        const playerSign = getPlayerTurn().getSign();
+        boardObj.setCell(idx, playerSign);
+
+        const board = boardObj.getBoard();
+        if (checkWin(board)) {
+            console.log(`Player ${playerSign} win!`);
+            _roundResult = `Player ${playerSign} win!`;
             _isOver = true;
             return;
         };
 
-        if (_checkDraw(board)) {
+        if (checkDraw(board)) {
             console.log(`It's a draw!`);
             _roundResult = `It's a draw!`;
             _isOver = true;
@@ -92,14 +80,32 @@ const Controller = (() => {
         _roundResult = `Player ${getPlayerTurn().getSign()}'s turn`;
     };
 
+    const aiMove = (boardObj) => {
+        if (_isOver) return undefined;
+        const idx = _aiLogic.minimax(
+            boardObj.getBoard(), 
+            getAiPlayer().getSign()
+        ).index;
+
+        playerMove(boardObj, idx);
+        return idx;
+    };
+
     const reset = () => {
         round = 1;
         _isOver = false;
+        _roundResult = null;
     };
 
     return {
+        setPlayerSign,
         getPlayerTurn,
+        getHumanPlayer,
+        getAiPlayer,
+        checkWin,
+        checkDraw,
         playerMove,
+        aiMove,
         reset,
         getRoundResult
     };
