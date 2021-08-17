@@ -7,3 +7,7 @@ Part of the curriculum for The Odin Project
 - Factory function
 - Module patterns
 - Minimax algorithm implementation on Tic-Tac-Toe
+
+# Demo
+
+https://etchzel.github.io/tic-tac-toe/
